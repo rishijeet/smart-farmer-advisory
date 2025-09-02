@@ -103,8 +103,6 @@ function App() {
   }, [weather, mandi]);
 
   // Summary helpers
-  const latestSoil = soil && soil.length ? soil[0] : null;
-  const latestWeather = weather && weather.length ? weather[0] : null;
   const topMandi = useMemo(() => {
     if (!mandi || !mandi.length) return null;
     return mandi.reduce((a, b) => {
@@ -114,11 +112,75 @@ function App() {
     });
   }, [mandi]);
 
+  // Most recent soil and weather entries
+  const latestSoil = useMemo(() => {
+    if (!soil || soil.length === 0) return null;
+    return [...soil].sort((a, b) => new Date(b?.sample_date || 0) - new Date(a?.sample_date || 0))[0];
+  }, [soil]);
+
+  const latestWeather = useMemo(() => {
+    if (!weather || weather.length === 0) return null;
+    return [...weather].sort((a, b) => new Date(b?.date || 0) - new Date(a?.date || 0))[0];
+  }, [weather]);
+
   // Suggestions helper
   const getSuggestions = () => {
     const q = village.trim().toLowerCase();
     if (!q) return recentSearches.slice(0, 8);
     return recentSearches.filter(v => v.toLowerCase().includes(q)).slice(0, 8);
+  };
+
+  // Crop recommendation based on simple agronomy heuristics
+  const recommendCrops = (soil, weather) => {
+    if (!soil) return [];
+    const ph = Number(soil.ph);
+    const moisture = soil.moisture != null ? Number(soil.moisture) : null;
+    const n = soil.nitrogen != null ? Number(soil.nitrogen) : null;
+    const p = soil.phosphorus != null ? Number(soil.phosphorus) : null;
+    const k = soil.potassium != null ? Number(soil.potassium) : null;
+    const maxT = weather?.max_temp_c != null ? Number(weather.max_temp_c) : null;
+
+    const recs = [];
+
+    // pH based
+    if (!isNaN(ph)) {
+      if (ph >= 6.0 && ph <= 7.5) {
+        recs.push({ crop: 'गेहूं', reason: 'तटस्थ pH (6–7.5) गेहूं के लिए उपयुक्त' });
+        recs.push({ crop: 'धान', reason: 'तटस्थ pH धान के लिए भी अनुकूल' });
+      } else if (ph < 6.0) {
+        recs.push({ crop: 'मक्का', reason: 'हल्की अम्लीय मिट्टी में अच्छा प्रदर्शन' });
+        recs.push({ crop: 'आलू', reason: 'अम्लीय pH पसंद करता है' });
+      } else if (ph > 7.5) {
+        recs.push({ crop: 'जौ', reason: 'उच्च pH/क्षारीय मिट्टी सहनशील' });
+        recs.push({ crop: 'चना', reason: 'दलहनी फसलें उच्च pH में भी चलती हैं' });
+      }
+    }
+
+    // Moisture/temperature hints
+    if (moisture != null) {
+      if (moisture >= 25) recs.push({ crop: 'धान', reason: 'अधिक नमी की उपलब्धता' });
+      if (moisture <= 15) recs.push({ crop: 'चना', reason: 'कम नमी/सूखा सहनशील' });
+    }
+    if (maxT != null) {
+      if (maxT >= 32) recs.push({ crop: 'बाजरा', reason: 'उच्च तापमान सहनशील' });
+      if (maxT <= 25) recs.push({ crop: 'गेहूं', reason: 'मध्यम तापमान में बेहतर' });
+    }
+
+    // NPK balance hints
+    const low = (v) => v != null && v < 30;
+    const high = (v) => v != null && v > 60;
+    if (low(n)) recs.push({ crop: 'दलहन (चना/अरहर)', reason: 'कम नाइट्रोजन—दलहन जैविक नाइट्रोजन जोड़ती हैं' });
+    if (low(p)) recs.push({ crop: 'सरसों', reason: 'कम फॉस्फोरस में अपेक्षाकृत सहनशील' });
+    if (low(k)) recs.push({ crop: 'ज्वार', reason: 'कम पोटाश में भी अनुकूल' });
+    if (high(n)) recs.push({ crop: 'धान', reason: 'उच्च N उपलब्धता का लाभ' });
+
+    // Deduplicate by crop, keep first reason
+    const seen = new Set();
+    const unique = [];
+    for (const r of recs) {
+      if (!seen.has(r.crop)) { seen.add(r.crop); unique.push(r); }
+    }
+    return unique.slice(0, 6);
   };
 
   return (
@@ -303,6 +365,8 @@ function App() {
                   </div>
                 ))}
               </div>
+
+              
             </div>
           )}
 
@@ -353,6 +417,44 @@ function App() {
                   )}
                 </div>
               </div>
+
+              {/* Crop Recommendations (table) */}
+              {latestSoil && (
+                <div className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 slide-up delay-150">
+                  <div className="bg-emerald-600 px-4 py-3">
+                    <h3 className="text-lg font-semibold text-white flex items-center">
+                      <span className="mr-2">🌾</span>फसल सिफारिश
+                    </h3>
+                  </div>
+                  <div className="p-4">
+                    {(() => {
+                      const recs = recommendCrops(latestSoil, latestWeather);
+                      return recs.length ? (
+                        <div className="table-wrap">
+                          <table className="agri-table">
+                            <thead className="bg-emerald-50 sticky top-0 z-10">
+                              <tr className="text-left text-emerald-800">
+                                <th className="px-3 py-2">फसल</th>
+                                <th className="px-3 py-2">कारण</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {recs.map((r, i) => (
+                                <tr key={i} className={i % 2 ? 'bg-white' : 'bg-emerald-50/40'}>
+                                  <td className="px-3 py-2 font-medium text-emerald-900">{r.crop}</td>
+                                  <td className="px-3 py-2 text-emerald-800">{r.reason}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      ) : (
+                        <div className="text-gray-600">फसल सिफारिश के लिए पर्याप्त मिट्टी/मौसम डेटा नहीं है</div>
+                      );
+                    })()}
+                  </div>
+                </div>
+              )}
 
               {/* Weather Data (backend fields: max_temp_c, min_temp_c, rainfall_mm, humidity_pct, date, state, district) */}
               <div className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 slide-up delay-200">
@@ -441,6 +543,8 @@ function App() {
                   )}
                 </div>
               </div>
+
+              
             </div>
           )}
 
