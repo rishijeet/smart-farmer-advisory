@@ -1,0 +1,28 @@
+{
+  "datasets": [
+    {
+      "name": "soil",
+      "source": "sample_data/soil.csv",
+      "rows": 2,
+      "ingested_at": 1756782315
+    },
+    {
+      "name": "weather",
+      "source": "sample_data/weather.json",
+      "rows": 3,
+      "ingested_at": 1756782326
+    },
+    {
+      "name": "mandi",
+      "source": "sample_data/mandi.csv",
+      "rows": 4,
+      "ingested_at": 1756782332
+    },
+    {
+      "name": "crops",
+      "source": "sample_data/crops.csv",
+      "rows": 2,
+      "ingested_at": 1756782338
+    }
+  ]
+}

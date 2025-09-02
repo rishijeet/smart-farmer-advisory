@@ -1,0 +1,65 @@
+# Root .gitignore for ai-agri-data
+
+# --- OS / Editor ---
+.DS_Store
+.idea/
+.vscode/
+*.iml
+*.swp
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+ENV/
+.python-version
+
+# Packaging / build
+build/
+dist/
+.eggs/
+*.egg-info/
+*.egg
+
+# Test / coverage / tooling caches
+.pytest_cache/
+.coverage
+.coverage.*
+.cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+
+# --- Node / React (UI) ---
+node_modules/
+ui/node_modules/
+ui/build/
+ui/dist/
+
+# Env files
+.env
+.env.*
+ui/.env
+ui/.env.*
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# --- Data / Local storage outputs ---
+storage/*.db
+storage/*.sqlite
+storage/*.sqlite3
+storage/*.parquet
+# keep registry.json if you want it tracked; comment next line in to ignore
+# storage/registry.json
+
+# --- Misc ---
+coverage/
+Thumbs.db

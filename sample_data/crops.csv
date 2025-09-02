@@ -1,0 +1,3 @@
+plot_id,farmer_id,state,district,crop,variety,sowing_date,expected_harvest_date,area_acres
+P001,F123,Uttar Pradesh,Lucknow,Wheat,Sharbati,2025-07-15,2025-11-30,1.5
+P002,F124,Gujarat,Ahmedabad,Onion,Red,2025-07-01,2025-10-15,2.0

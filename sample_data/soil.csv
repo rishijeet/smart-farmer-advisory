@@ -1,0 +1,3 @@
+village,lat,lon,sample_date,ph,nitrogen,phosphorus,potassium,organic_carbon,moisture
+Rampur,26.85,80.95,2025-08-20,7.1,240,18,140,0.75,22
+Kheda,22.75,72.68,2025-08-22,6.8,180,14,120,0.62,18
