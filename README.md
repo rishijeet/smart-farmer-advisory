@@ -2,6 +2,9 @@
 
 An end-to-end, lightweight app for Indian agriculture. Farmers can search a village to view **soil, weather, crop, and mandi (market)** insights in a clean UI, powered by a simple FastAPI backend.
 
+<img width="1280" height="725" alt="Screenshot 2025-09-02 at 10 37 32 AM" src="https://github.com/user-attachments/assets/7c7244f9-b1c7-45ba-8f38-5ed256ea46e7" />
+
+
 ## Features
 - Clean UI for village search with recent suggestions and filters (state, date range).
 - Ingestors for soil, weather, crop, and mandi data (CSV/JSON).
