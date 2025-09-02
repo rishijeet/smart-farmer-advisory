@@ -124,7 +124,7 @@ function App() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-50 to-green-100 flex flex-col items-center p-6">
       <div className="w-full max-w-3xl mb-8 lg:mb-12 text-center">
-        <h1 className="text-3xl font-extrabold text-green-800 tracking-tight">🌾 Smart Farmer Advisory</h1>
+        <h1 className="text-3xl font-extrabold text-green-800 tracking-tight">🌾 स्मार्ट किसान परामर्श</h1>
         <p className="text-green-700 mt-1">Search a village to see soil, weather, and market insights.</p>
       </div>
 
@@ -232,7 +232,7 @@ function App() {
             </div>
           </div>
         </div>
-        <div className="text-xs text-gray-500 mt-1 ml-1">Tip: Village triggers soil fetching. Weather & Mandi honor optional state/date filters.</div>
+        <div className="text-xs text-gray-500 mt-1 ml-1">सुझाव: गाँव डालने पर मिट्टी का डेटा मिलेगा। मौसम और मंडी में वैकल्पिक राज्य/तारीख फ़िल्टर लागू होंगे।</div>
       </div>
 
       {/* Data Cards */}
@@ -313,7 +313,7 @@ function App() {
               <div className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 slide-up delay-100">
                 <div className="bg-green-700 px-4 py-3">
                   <h3 className="text-lg font-semibold text-white flex items-center">
-                    <span className="mr-2">🌱</span> Soil Analysis
+                    <span className="mr-2">🌱</span>मिट्टी विश्लेषण
                   </h3>
                 </div>
                 <div className="p-4">
@@ -322,13 +322,13 @@ function App() {
                       <table className="agri-table">
                         <thead className="bg-gray-50 sticky top-0 z-10">
                           <tr className="text-left text-gray-600">
-                            <th className="px-3 py-2">Village</th>
-                            <th className="px-3 py-2">Sample Date</th>
-                            <th className="px-3 py-2 text-numeric">Moisture</th>
+                            <th className="px-3 py-2">गांव</th>
+                            <th className="px-3 py-2">नमूना तिथि</th>
+                            <th className="px-3 py-2 text-numeric">नमी</th>
                             <th className="px-3 py-2 text-numeric">pH</th>
-                            <th className="px-3 py-2 text-numeric">N</th>
-                            <th className="px-3 py-2 text-numeric">P</th>
-                            <th className="px-3 py-2 text-numeric">K</th>
+                            <th className="px-3 py-2 text-numeric">नाइट्रोजन (N)</th>
+                            <th className="px-3 py-2 text-numeric">फॉस्फोरस (P)</th>
+                            <th className="px-3 py-2 text-numeric">पोटैशियम (K)</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -358,7 +358,7 @@ function App() {
               <div className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 slide-up delay-200">
                 <div className="bg-blue-600 px-4 py-3">
                   <h3 className="text-lg font-semibold text-white flex items-center">
-                    <span className="mr-2">🌦️</span> Weather Conditions
+                    <span className="mr-2">🌦️</span>मौसम की स्थिति
                   </h3>
                 </div>
                 <div className="p-4">
@@ -367,12 +367,12 @@ function App() {
                       <table className="agri-table">
                         <thead className="bg-blue-50 sticky top-0 z-10">
                           <tr className="text-left text-blue-700">
-                            <th className="px-3 py-2 text-numeric">Max Temp (°C)</th>
-                            <th className="px-3 py-2 text-numeric">Min Temp (°C)</th>
-                            <th className="px-3 py-2 text-numeric">Rain (mm)</th>
-                            <th className="px-3 py-2 text-numeric">Humidity (%)</th>
-                            <th className="px-3 py-2">Date</th>
-                            <th className="px-3 py-2">State</th>
+                            <th className="px-3 py-2 text-numeric">अधिकतम तापमान (°C)</th>
+                            <th className="px-3 py-2 text-numeric">न्यूनतम तापमान (°C)</th>
+                            <th className="px-3 py-2 text-numeric">वर्षा (मिमी)</th>
+                            <th className="px-3 py-2 text-numeric">आर्द्रता (%)</th>
+                            <th className="px-3 py-2">तिथि</th>
+                            <th className="px-3 py-2">राज्य</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -401,7 +401,7 @@ function App() {
               <div className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 slide-up delay-300">
                 <div className="bg-amber-600 px-4 py-3">
                   <h3 className="text-lg font-semibold text-white flex items-center">
-                    <span className="mr-2">🏪</span> Market Prices
+                    <span className="mr-2">🏪</span>मंडी मूल्य
                   </h3>
                 </div>
                 <div className="p-4">
@@ -410,13 +410,13 @@ function App() {
                       <table className="agri-table">
                         <thead className="bg-amber-50 sticky top-0 z-10">
                           <tr className="text-left text-amber-800">
-                            <th className="px-3 py-2">Commodity</th>
-                            <th className="px-3 py-2">Mandi</th>
-                            <th className="px-3 py-2 text-numeric">Modal Price</th>
-                            <th className="px-3 py-2">Variety</th>
-                            <th className="px-3 py-2">Date</th>
-                            <th className="px-3 py-2">State</th>
-                            <th className="px-3 py-2 text-numeric">Arrivals (qtl)</th>
+                            <th className="px-3 py-2">वस्तु</th>
+                            <th className="px-3 py-2">मंडी</th>
+                            <th className="px-3 py-2 text-numeric">औसत मूल्य</th>
+                            <th className="px-3 py-2">किस्म</th>
+                            <th className="px-3 py-2">तिथि</th>
+                            <th className="px-3 py-2">राज्य</th>
+                            <th className="px-3 py-2 text-numeric">आवक (क्विंटल)</th>
                           </tr>
                         </thead>
                         <tbody>
